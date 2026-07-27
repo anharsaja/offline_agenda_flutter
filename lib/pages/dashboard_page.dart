@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/activity.dart';
 import '../widgets/activity_tile.dart';
+import '../widgets/progress_card.dart';
+import '../widgets/section_title.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -53,71 +55,32 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: 
-      const Text(
-        "Good Evening 👋",
-        style: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-        ),
-      )),
+      // appBar: AppBar(
+      //   title: const Text(
+      //     "Good Evening 👋",
+      //     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+      //   ),
+      // ),
 
       body: Padding(
         padding: const EdgeInsets.all(16),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-
-                child: 
-                Column(
-                  children: [
-
-                    const Text(
-                      "Today's Progress",
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    Text(
-                      "${(progress * 100).toInt()}%",
-                      style: const TextStyle(
-                        fontSize: 42,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        minHeight: 12,
-                      ),
-                    ),
-                  ],
-                )
-              ),
+            const Text(
+              "Good Evening 👋",
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 20),
-            const Text(
-              "Aktivitas Positif",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+
+            ProgressCard(progress: progress),
+
+            const SectionTitle(title: "Positive Activities"),
             Expanded(
               child: ListView(
                 children: goodActivities.map((activity) {
-                  return 
-                  ActivityTile(
+                  return ActivityTile(
                     activity: activity,
                     onChanged: (value) {
                       setState(() {
@@ -129,15 +92,12 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
 
-            const Text(
-              "Aktivitas Negatif",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+
+            const SectionTitle(title: "Negative Activities"),
             Expanded(
               child: ListView(
                 children: badActivities.map((activity) {
-                  return 
-                  ActivityTile(
+                  return ActivityTile(
                     activity: activity,
                     onChanged: (value) {
                       setState(() {
@@ -152,10 +112,10 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }
