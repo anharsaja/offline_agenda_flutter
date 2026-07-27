@@ -172,6 +172,7 @@ Clone this repository
 
 ```bash
 git clone https://github.com/anharsaja/offline_agenda_flutter.git
+```
 
 Go to project
 
@@ -225,6 +226,7 @@ flutter run
 Contributions are welcome!
 
 If you have ideas or improvements, feel free to fork this repository and submit a pull request.
+or contact my email anhardhoher@gmail.com
 
 ---
 
