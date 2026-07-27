@@ -3,12 +3,12 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $ActivitiesTable extends Activities
-    with TableInfo<$ActivitiesTable, Activity> {
+class $ActivitiesTableTable extends ActivitiesTable
+    with TableInfo<$ActivitiesTableTable, ActivitiesTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ActivitiesTable(this.attachedDatabase, [this._alias]);
+  $ActivitiesTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
@@ -27,17 +27,6 @@ class $ActivitiesTable extends Activities
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _categoryMeta = const VerificationMeta(
-    'category',
-  );
-  @override
-  late final GeneratedColumn<String> category = GeneratedColumn<String>(
-    'category',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
   static const VerificationMeta _pointMeta = const VerificationMeta('point');
   @override
   late final GeneratedColumn<int> point = GeneratedColumn<int>(
@@ -47,48 +36,16 @@ class $ActivitiesTable extends Activities
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _isDailyMeta = const VerificationMeta(
-    'isDaily',
-  );
   @override
-  late final GeneratedColumn<bool> isDaily = GeneratedColumn<bool>(
-    'is_daily',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_daily" IN (0, 1))',
-    ),
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    name,
-    category,
-    point,
-    isDaily,
-    createdAt,
-  ];
+  List<GeneratedColumn> get $columns => [id, name, point];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'activities';
+  static const String $name = 'activities_table';
   @override
   VerificationContext validateIntegrity(
-    Insertable<Activity> instance, {
+    Insertable<ActivitiesTableData> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -106,14 +63,6 @@ class $ActivitiesTable extends Activities
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('category')) {
-      context.handle(
-        _categoryMeta,
-        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_categoryMeta);
-    }
     if (data.containsKey('point')) {
       context.handle(
         _pointMeta,
@@ -122,31 +71,15 @@ class $ActivitiesTable extends Activities
     } else if (isInserting) {
       context.missing(_pointMeta);
     }
-    if (data.containsKey('is_daily')) {
-      context.handle(
-        _isDailyMeta,
-        isDaily.isAcceptableOrUnknown(data['is_daily']!, _isDailyMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_isDailyMeta);
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Activity map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ActivitiesTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Activity(
+    return ActivitiesTableData(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}id'],
@@ -155,81 +88,55 @@ class $ActivitiesTable extends Activities
         DriftSqlType.string,
         data['${effectivePrefix}name'],
       )!,
-      category: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}category'],
-      )!,
       point: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}point'],
-      )!,
-      isDaily: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_daily'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
       )!,
     );
   }
 
   @override
-  $ActivitiesTable createAlias(String alias) {
-    return $ActivitiesTable(attachedDatabase, alias);
+  $ActivitiesTableTable createAlias(String alias) {
+    return $ActivitiesTableTable(attachedDatabase, alias);
   }
 }
 
-class Activity extends DataClass implements Insertable<Activity> {
+class ActivitiesTableData extends DataClass
+    implements Insertable<ActivitiesTableData> {
   final String id;
   final String name;
-  final String category;
   final int point;
-  final bool isDaily;
-  final DateTime createdAt;
-  const Activity({
+  const ActivitiesTableData({
     required this.id,
     required this.name,
-    required this.category,
     required this.point,
-    required this.isDaily,
-    required this.createdAt,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
-    map['category'] = Variable<String>(category);
     map['point'] = Variable<int>(point);
-    map['is_daily'] = Variable<bool>(isDaily);
-    map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
 
-  ActivitiesCompanion toCompanion(bool nullToAbsent) {
-    return ActivitiesCompanion(
+  ActivitiesTableCompanion toCompanion(bool nullToAbsent) {
+    return ActivitiesTableCompanion(
       id: Value(id),
       name: Value(name),
-      category: Value(category),
       point: Value(point),
-      isDaily: Value(isDaily),
-      createdAt: Value(createdAt),
     );
   }
 
-  factory Activity.fromJson(
+  factory ActivitiesTableData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Activity(
+    return ActivitiesTableData(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
-      category: serializer.fromJson<String>(json['category']),
       point: serializer.fromJson<int>(json['point']),
-      isDaily: serializer.fromJson<bool>(json['isDaily']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
   @override
@@ -238,134 +145,88 @@ class Activity extends DataClass implements Insertable<Activity> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
-      'category': serializer.toJson<String>(category),
       'point': serializer.toJson<int>(point),
-      'isDaily': serializer.toJson<bool>(isDaily),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
 
-  Activity copyWith({
-    String? id,
-    String? name,
-    String? category,
-    int? point,
-    bool? isDaily,
-    DateTime? createdAt,
-  }) => Activity(
-    id: id ?? this.id,
-    name: name ?? this.name,
-    category: category ?? this.category,
-    point: point ?? this.point,
-    isDaily: isDaily ?? this.isDaily,
-    createdAt: createdAt ?? this.createdAt,
-  );
-  Activity copyWithCompanion(ActivitiesCompanion data) {
-    return Activity(
+  ActivitiesTableData copyWith({String? id, String? name, int? point}) =>
+      ActivitiesTableData(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        point: point ?? this.point,
+      );
+  ActivitiesTableData copyWithCompanion(ActivitiesTableCompanion data) {
+    return ActivitiesTableData(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
-      category: data.category.present ? data.category.value : this.category,
       point: data.point.present ? data.point.value : this.point,
-      isDaily: data.isDaily.present ? data.isDaily.value : this.isDaily,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('Activity(')
+    return (StringBuffer('ActivitiesTableData(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('category: $category, ')
-          ..write('point: $point, ')
-          ..write('isDaily: $isDaily, ')
-          ..write('createdAt: $createdAt')
+          ..write('point: $point')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, name, category, point, isDaily, createdAt);
+  int get hashCode => Object.hash(id, name, point);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Activity &&
+      (other is ActivitiesTableData &&
           other.id == this.id &&
           other.name == this.name &&
-          other.category == this.category &&
-          other.point == this.point &&
-          other.isDaily == this.isDaily &&
-          other.createdAt == this.createdAt);
+          other.point == this.point);
 }
 
-class ActivitiesCompanion extends UpdateCompanion<Activity> {
+class ActivitiesTableCompanion extends UpdateCompanion<ActivitiesTableData> {
   final Value<String> id;
   final Value<String> name;
-  final Value<String> category;
   final Value<int> point;
-  final Value<bool> isDaily;
-  final Value<DateTime> createdAt;
   final Value<int> rowid;
-  const ActivitiesCompanion({
+  const ActivitiesTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
-    this.category = const Value.absent(),
     this.point = const Value.absent(),
-    this.isDaily = const Value.absent(),
-    this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  ActivitiesCompanion.insert({
+  ActivitiesTableCompanion.insert({
     required String id,
     required String name,
-    required String category,
     required int point,
-    required bool isDaily,
-    required DateTime createdAt,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
-       category = Value(category),
-       point = Value(point),
-       isDaily = Value(isDaily),
-       createdAt = Value(createdAt);
-  static Insertable<Activity> custom({
+       point = Value(point);
+  static Insertable<ActivitiesTableData> custom({
     Expression<String>? id,
     Expression<String>? name,
-    Expression<String>? category,
     Expression<int>? point,
-    Expression<bool>? isDaily,
-    Expression<DateTime>? createdAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (category != null) 'category': category,
       if (point != null) 'point': point,
-      if (isDaily != null) 'is_daily': isDaily,
-      if (createdAt != null) 'created_at': createdAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  ActivitiesCompanion copyWith({
+  ActivitiesTableCompanion copyWith({
     Value<String>? id,
     Value<String>? name,
-    Value<String>? category,
     Value<int>? point,
-    Value<bool>? isDaily,
-    Value<DateTime>? createdAt,
     Value<int>? rowid,
   }) {
-    return ActivitiesCompanion(
+    return ActivitiesTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
-      category: category ?? this.category,
       point: point ?? this.point,
-      isDaily: isDaily ?? this.isDaily,
-      createdAt: createdAt ?? this.createdAt,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -379,17 +240,8 @@ class ActivitiesCompanion extends UpdateCompanion<Activity> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
-    if (category.present) {
-      map['category'] = Variable<String>(category.value);
-    }
     if (point.present) {
       map['point'] = Variable<int>(point.value);
-    }
-    if (isDaily.present) {
-      map['is_daily'] = Variable<bool>(isDaily.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -399,13 +251,10 @@ class ActivitiesCompanion extends UpdateCompanion<Activity> {
 
   @override
   String toString() {
-    return (StringBuffer('ActivitiesCompanion(')
+    return (StringBuffer('ActivitiesTableCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('category: $category, ')
           ..write('point: $point, ')
-          ..write('isDaily: $isDaily, ')
-          ..write('createdAt: $createdAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -415,38 +264,34 @@ class ActivitiesCompanion extends UpdateCompanion<Activity> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $ActivitiesTable activities = $ActivitiesTable(this);
+  late final $ActivitiesTableTable activitiesTable = $ActivitiesTableTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [activities];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [activitiesTable];
 }
 
-typedef $$ActivitiesTableCreateCompanionBuilder =
-    ActivitiesCompanion Function({
+typedef $$ActivitiesTableTableCreateCompanionBuilder =
+    ActivitiesTableCompanion Function({
       required String id,
       required String name,
-      required String category,
       required int point,
-      required bool isDaily,
-      required DateTime createdAt,
       Value<int> rowid,
     });
-typedef $$ActivitiesTableUpdateCompanionBuilder =
-    ActivitiesCompanion Function({
+typedef $$ActivitiesTableTableUpdateCompanionBuilder =
+    ActivitiesTableCompanion Function({
       Value<String> id,
       Value<String> name,
-      Value<String> category,
       Value<int> point,
-      Value<bool> isDaily,
-      Value<DateTime> createdAt,
       Value<int> rowid,
     });
 
-class $$ActivitiesTableFilterComposer
-    extends Composer<_$AppDatabase, $ActivitiesTable> {
-  $$ActivitiesTableFilterComposer({
+class $$ActivitiesTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ActivitiesTableTable> {
+  $$ActivitiesTableTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -463,30 +308,15 @@ class $$ActivitiesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get category => $composableBuilder(
-    column: $table.category,
-    builder: (column) => ColumnFilters(column),
-  );
-
   ColumnFilters<int> get point => $composableBuilder(
     column: $table.point,
     builder: (column) => ColumnFilters(column),
   );
-
-  ColumnFilters<bool> get isDaily => $composableBuilder(
-    column: $table.isDaily,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
 }
 
-class $$ActivitiesTableOrderingComposer
-    extends Composer<_$AppDatabase, $ActivitiesTable> {
-  $$ActivitiesTableOrderingComposer({
+class $$ActivitiesTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ActivitiesTableTable> {
+  $$ActivitiesTableTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -503,30 +333,15 @@ class $$ActivitiesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get category => $composableBuilder(
-    column: $table.category,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<int> get point => $composableBuilder(
     column: $table.point,
     builder: (column) => ColumnOrderings(column),
   );
-
-  ColumnOrderings<bool> get isDaily => $composableBuilder(
-    column: $table.isDaily,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
 }
 
-class $$ActivitiesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ActivitiesTable> {
-  $$ActivitiesTableAnnotationComposer({
+class $$ActivitiesTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ActivitiesTableTable> {
+  $$ActivitiesTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -539,79 +354,67 @@ class $$ActivitiesTableAnnotationComposer
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
-  GeneratedColumn<String> get category =>
-      $composableBuilder(column: $table.category, builder: (column) => column);
-
   GeneratedColumn<int> get point =>
       $composableBuilder(column: $table.point, builder: (column) => column);
-
-  GeneratedColumn<bool> get isDaily =>
-      $composableBuilder(column: $table.isDaily, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
 }
 
-class $$ActivitiesTableTableManager
+class $$ActivitiesTableTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $ActivitiesTable,
-          Activity,
-          $$ActivitiesTableFilterComposer,
-          $$ActivitiesTableOrderingComposer,
-          $$ActivitiesTableAnnotationComposer,
-          $$ActivitiesTableCreateCompanionBuilder,
-          $$ActivitiesTableUpdateCompanionBuilder,
-          (Activity, BaseReferences<_$AppDatabase, $ActivitiesTable, Activity>),
-          Activity,
+          $ActivitiesTableTable,
+          ActivitiesTableData,
+          $$ActivitiesTableTableFilterComposer,
+          $$ActivitiesTableTableOrderingComposer,
+          $$ActivitiesTableTableAnnotationComposer,
+          $$ActivitiesTableTableCreateCompanionBuilder,
+          $$ActivitiesTableTableUpdateCompanionBuilder,
+          (
+            ActivitiesTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $ActivitiesTableTable,
+              ActivitiesTableData
+            >,
+          ),
+          ActivitiesTableData,
           PrefetchHooks Function()
         > {
-  $$ActivitiesTableTableManager(_$AppDatabase db, $ActivitiesTable table)
-    : super(
+  $$ActivitiesTableTableTableManager(
+    _$AppDatabase db,
+    $ActivitiesTableTable table,
+  ) : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$ActivitiesTableFilterComposer($db: db, $table: table),
+              $$ActivitiesTableTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$ActivitiesTableOrderingComposer($db: db, $table: table),
+              $$ActivitiesTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$ActivitiesTableAnnotationComposer($db: db, $table: table),
+              $$ActivitiesTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<String> category = const Value.absent(),
                 Value<int> point = const Value.absent(),
-                Value<bool> isDaily = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
-              }) => ActivitiesCompanion(
+              }) => ActivitiesTableCompanion(
                 id: id,
                 name: name,
-                category: category,
                 point: point,
-                isDaily: isDaily,
-                createdAt: createdAt,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
                 required String id,
                 required String name,
-                required String category,
                 required int point,
-                required bool isDaily,
-                required DateTime createdAt,
                 Value<int> rowid = const Value.absent(),
-              }) => ActivitiesCompanion.insert(
+              }) => ActivitiesTableCompanion.insert(
                 id: id,
                 name: name,
-                category: category,
                 point: point,
-                isDaily: isDaily,
-                createdAt: createdAt,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -622,24 +425,31 @@ class $$ActivitiesTableTableManager
       );
 }
 
-typedef $$ActivitiesTableProcessedTableManager =
+typedef $$ActivitiesTableTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $ActivitiesTable,
-      Activity,
-      $$ActivitiesTableFilterComposer,
-      $$ActivitiesTableOrderingComposer,
-      $$ActivitiesTableAnnotationComposer,
-      $$ActivitiesTableCreateCompanionBuilder,
-      $$ActivitiesTableUpdateCompanionBuilder,
-      (Activity, BaseReferences<_$AppDatabase, $ActivitiesTable, Activity>),
-      Activity,
+      $ActivitiesTableTable,
+      ActivitiesTableData,
+      $$ActivitiesTableTableFilterComposer,
+      $$ActivitiesTableTableOrderingComposer,
+      $$ActivitiesTableTableAnnotationComposer,
+      $$ActivitiesTableTableCreateCompanionBuilder,
+      $$ActivitiesTableTableUpdateCompanionBuilder,
+      (
+        ActivitiesTableData,
+        BaseReferences<
+          _$AppDatabase,
+          $ActivitiesTableTable,
+          ActivitiesTableData
+        >,
+      ),
+      ActivitiesTableData,
       PrefetchHooks Function()
     >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$ActivitiesTableTableManager get activities =>
-      $$ActivitiesTableTableManager(_db, _db.activities);
+  $$ActivitiesTableTableTableManager get activitiesTable =>
+      $$ActivitiesTableTableTableManager(_db, _db.activitiesTable);
 }
