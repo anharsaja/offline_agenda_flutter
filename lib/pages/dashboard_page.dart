@@ -13,23 +13,18 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final List<Activity> goodActivities = [
-    Activity(name: "Sholat Subuh", point: 10, done: false),
-    Activity(name: "Olahraga", point: 10, done: false),
-    Activity(name: "Membaca", point: 10, done: false),
-    Activity(name: "Sholat Dhuhur", point: 15, done: false),
-    Activity(name: "Sholat Ashar", point: 15, done: false),
-    Activity(name: "Olahraga", point: 10, done: false),
-    Activity(name: "Sholat Maghrib", point: 10, done: false),
-    Activity(name: "Sholat Isya", point: 10, done: false),
-    Activity(name: "Tidur jam 9", point: 10, done: false),
-  ];
+  // final repository = ActivityRepository();
 
+  final List<Activity> goodActivities = [
+    Activity(name: "Bangun Siang", point: 10, done: false),
+    Activity(name: "Makan Sayur", point: 10, done: false),
+    Activity(name: "Olahraga", point: 10, done: false),
+  ];
   final List<Activity> badActivities = [
-    Activity(name: "Bangun Siang", point: -10, done: false),
     Activity(name: "Nongkrong", point: -10, done: false),
     Activity(name: "Tidak Mandi", point: -10, done: false),
-  ];
+    Activity(name: "Makan Junk Food", point: -10, done: false),
+    ];
 
   double get progress {
     int total = 0;
@@ -63,8 +58,10 @@ class _DashboardPageState extends State<DashboardPage> {
 
     setState(() {
       if (activity.point >= 0) {
+        // repository.add(activity);
         goodActivities.add(activity);
       } else {
+        // repository.add(activity);
         badActivities.add(activity);
       }
     });
