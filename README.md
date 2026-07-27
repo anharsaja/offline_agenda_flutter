@@ -1,44 +1,237 @@
-# offline_agenda
+# 📊 Daily Tracker
 
-A new Flutter project.
+> A personal productivity and self-improvement tracker built with Flutter.
 
-## Getting Started
+Daily Tracker is an offline-first application designed to help users build positive habits, reduce negative habits, and monitor daily productivity through statistics and progress visualization.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## ✨ Features
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+### ✅ Daily Habit Tracking
+- Add positive daily activities
+- Mark activities as completed
+- Create custom habits
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### ❌ Bad Habit Tracking
+- Track negative habits
+- Reduce daily score when bad habits are completed
 
+### 📈 Progress Monitoring
+- Daily progress percentage
+- Weekly statistics
+- Monthly statistics
+- Habit completion rate
 
-Pengembangan bertahap
+### 📊 Dashboard
+- Daily score
+- Progress indicator
+- Positive activities
+- Negative habits
 
-Versi 1 (MVP)
+### 🔔 Reminder *(Planned)*
+- Local notifications
+- Daily reminders
+- Prayer reminders
+- Exercise reminders
 
-Login lokal sederhana (opsional)
-Daftar aktivitas positif dan negatif
-Checklist aktivitas harian
-Perhitungan skor harian
-Riwayat per hari
+### 💾 Offline First
+- No internet required
+- Local SQLite database
+- Fast and secure
 
-Versi 2
+---
 
-Grafik mingguan dan bulanan
-Kalender dengan warna berdasarkan skor harian
-Target mingguan
-Pencarian riwayat
-Backup dan restore
+# 📱 Screenshots
 
-Versi 3
+Coming Soon...
 
-Pengingat/notifikasi
-Widget di layar utama Android
-Gamifikasi (level, badge, streak)
-Tema terang/gelap
-Sinkronisasi opsional melalui Google Drive atau layanan lain (tetap bisa digunakan sepenuhnya offline)
+| Dashboard | Statistics | History |
+|-----------|------------|----------|
+| 🚧 | 🚧 | 🚧 |
+
+---
+
+# 🛠️ Tech Stack
+
+| Technology | Description |
+|------------|-------------|
+| Flutter | Cross-platform Framework |
+| Dart | Programming Language |
+| SQLite | Offline Database |
+| Drift | SQLite ORM |
+| Riverpod | State Management |
+| fl_chart | Charts & Analytics |
+| flutter_local_notifications | Local Reminder |
+
+---
+
+# 📂 Project Structure
+
+```
+lib/
+│
+├── database/
+├── models/
+├── pages/
+├── providers/
+├── services/
+├── utils/
+├── widgets/
+└── main.dart
+```
+
+---
+
+# 📌 Roadmap
+
+## Version 0.1
+- [x] Flutter Project Setup
+- [x] Dashboard UI
+- [x] Activity Model
+
+## Version 0.2
+- [ ] Add Activity
+- [ ] Delete Activity
+- [ ] Edit Activity
+- [ ] Checklist System
+
+## Version 0.3
+- [ ] SQLite Integration
+- [ ] Save Daily Activities
+- [ ] Load Daily Activities
+
+## Version 0.4
+- [ ] Statistics
+- [ ] Pie Chart
+- [ ] Weekly Report
+- [ ] Monthly Report
+
+## Version 0.5
+- [ ] Notifications
+- [ ] Daily Reminder
+- [ ] Prayer Reminder
+
+## Version 1.0
+- [ ] Export Database
+- [ ] Backup & Restore
+- [ ] Dark Mode
+- [ ] Release Android
+- [ ] Release Windows
+
+---
+
+# 🏆 Scoring System
+
+Positive habits increase your score.
+
+| Activity | Points |
+|----------|-------:|
+| Prayer | +10 |
+| Exercise | +15 |
+| Coding | +20 |
+| Reading | +10 |
+
+Negative habits decrease your score.
+
+| Habit | Points |
+|-------|-------:|
+| Wake up late | -15 |
+| Skipping shower | -20 |
+| Hanging out excessively | -10 |
+
+---
+
+# 📈 Daily Progress Formula
+
+```
+Progress = Earned Points / Total Positive Points × 100%
+```
+
+Example
+
+```
+Positive Activities
+
+Prayer ✔
+Coding ✔
+Exercise ✘
+
+Total = 45
+
+Earned = 30
+
+Progress = 66%
+```
+
+---
+
+# 🚀 Getting Started
+
+Clone this repository
+
+```bash
+git clone https://github.com/anharsaja/offline_agenda_flutter.git
+
+Go to project
+
+```bash
+cd offline_agenda_flutter
+```
+
+Install dependencies
+
+```bash
+flutter pub get
+```
+
+Run application
+
+```bash
+flutter run
+```
+
+Windows
+
+```bash
+flutter run -d windows
+```
+
+Android
+
+```bash
+flutter run
+```
+
+---
+
+# 🎯 Future Features
+
+- AI Daily Suggestions
+- Smart Habit Recommendation
+- Weekly Goal Tracking
+- Achievement Badge System
+- Streak Counter
+- Calendar View
+- Data Export
+- CSV Import
+- PDF Report
+- Multi-language Support
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+If you have ideas or improvements, feel free to fork this repository and submit a pull request.
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+Made with ❤️ using Flutter.
