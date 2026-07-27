@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/activity.dart';
+import '../widgets/activity_tile.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -52,7 +53,14 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Daily Tracker")),
+      appBar: AppBar(title: 
+      const Text(
+        "Good Evening 👋",
+        style: TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+        ),
+      )),
 
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -65,19 +73,38 @@ class _DashboardPageState extends State<DashboardPage> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
 
-                child: Column(
+                child: 
+                Column(
                   children: [
+
+                    const Text(
+                      "Today's Progress",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
                     Text(
                       "${(progress * 100).toInt()}%",
                       style: const TextStyle(
-                        fontSize: 34,
+                        fontSize: 42,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    LinearProgressIndicator(value: progress),
+
+                    const SizedBox(height: 15),
+
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        minHeight: 12,
+                      ),
+                    ),
                   ],
-                ),
+                )
               ),
             ),
 
@@ -89,9 +116,18 @@ class _DashboardPageState extends State<DashboardPage> {
             Expanded(
               child: ListView(
                 children: goodActivities.map((activity) {
-                  return CheckboxListTile(
-                    title: Text(activity.name),
-                    value: activity.done,
+                  return 
+                  // CheckboxListTile(
+                  //   title: Text(activity.name),
+                  //   value: activity.done,
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       activity.done = value!;
+                  //     });
+                  //   },
+                  // );
+                  ActivityTile(
+                    activity: activity,
                     onChanged: (value) {
                       setState(() {
                         activity.done = value!;
@@ -109,9 +145,18 @@ class _DashboardPageState extends State<DashboardPage> {
             Expanded(
               child: ListView(
                 children: badActivities.map((activity) {
-                  return CheckboxListTile(
-                    title: Text(activity.name),
-                    value: activity.done,
+                  return 
+                  // CheckboxListTile(
+                  //   title: Text(activity.name),
+                  //   value: activity.done,
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       activity.done = value!;
+                  //     });
+                  //   },
+                  // );
+                  ActivityTile(
+                    activity: activity,
                     onChanged: (value) {
                       setState(() {
                         activity.done = value!;
