@@ -117,15 +117,6 @@ class _DashboardPageState extends State<DashboardPage> {
               child: ListView(
                 children: goodActivities.map((activity) {
                   return 
-                  // CheckboxListTile(
-                  //   title: Text(activity.name),
-                  //   value: activity.done,
-                  //   onChanged: (value) {
-                  //     setState(() {
-                  //       activity.done = value!;
-                  //     });
-                  //   },
-                  // );
                   ActivityTile(
                     activity: activity,
                     onChanged: (value) {
@@ -146,15 +137,6 @@ class _DashboardPageState extends State<DashboardPage> {
               child: ListView(
                 children: badActivities.map((activity) {
                   return 
-                  // CheckboxListTile(
-                  //   title: Text(activity.name),
-                  //   value: activity.done,
-                  //   onChanged: (value) {
-                  //     setState(() {
-                  //       activity.done = value!;
-                  //     });
-                  //   },
-                  // );
                   ActivityTile(
                     activity: activity,
                     onChanged: (value) {
