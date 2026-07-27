@@ -55,63 +55,47 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     "Good Evening 👋",
-      //     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-      //   ),
-      // ),
-
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Good Evening 👋",
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
+        children: [
+          const Text(
+            "Good Evening 👋",
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
 
-            const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-            ProgressCard(progress: progress),
+          ProgressCard(progress: progress),
 
-            const SectionTitle(title: "Positive Activities"),
-            Expanded(
-              child: ListView(
-                children: goodActivities.map((activity) {
-                  return ActivityTile(
-                    activity: activity,
-                    onChanged: (value) {
-                      setState(() {
-                        activity.done = value!;
-                      });
-                    },
-                  );
-                }).toList(),
-              ),
-            ),
+          const SectionTitle(title: "Positive Activities"),
 
+          ...goodActivities.map((activity) {
+            return ActivityTile(
+              activity: activity,
+              onChanged: (value) {
+                setState(() {
+                  activity.done = value!;
+                });
+              },
+            );
+          }),
 
-            const SectionTitle(title: "Negative Activities"),
-            Expanded(
-              child: ListView(
-                children: badActivities.map((activity) {
-                  return ActivityTile(
-                    activity: activity,
-                    onChanged: (value) {
-                      setState(() {
-                        activity.done = value!;
-                      });
-                    },
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
-        ),
+          const SectionTitle(title: "Bad Habits"),
+
+          ...badActivities.map((activity) {
+            return ActivityTile(
+              activity: activity,
+              onChanged: (value) {
+                setState(() {
+                  activity.done = value!;
+                });
+              },
+            );
+          }),
+
+          const SizedBox(height: 100),
+        ],
       ),
-
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {},
       //   child: const Icon(Icons.add),
