@@ -3,6 +3,7 @@ import '../models/activity.dart';
 import '../widgets/activity_tile.dart';
 import '../widgets/progress_card.dart';
 import '../widgets/section_title.dart';
+import '../dialogs/add_activity_dialog.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -52,6 +53,23 @@ class _DashboardPageState extends State<DashboardPage> {
     return current / total;
   }
 
+  Future<void> addActivity() async {
+    final Activity? activity = await showDialog<Activity>(
+      context: context,
+      builder: (_) => const AddActivityDialog(),
+    );
+
+    if (activity == null) return;
+
+    setState(() {
+      if (activity.point >= 0) {
+        goodActivities.add(activity);
+      } else {
+        badActivities.add(activity);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +86,6 @@ class _DashboardPageState extends State<DashboardPage> {
           ProgressCard(progress: progress),
 
           const SectionTitle(title: "Positive Activities"),
-
           ...goodActivities.map((activity) {
             return ActivityTile(
               activity: activity,
@@ -81,7 +98,6 @@ class _DashboardPageState extends State<DashboardPage> {
           }),
 
           const SectionTitle(title: "Bad Habits"),
-
           ...badActivities.map((activity) {
             return ActivityTile(
               activity: activity,
@@ -96,10 +112,10 @@ class _DashboardPageState extends State<DashboardPage> {
           const SizedBox(height: 100),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   child: const Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: addActivity,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
