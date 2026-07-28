@@ -39,26 +39,19 @@ class _AddActivityDialogState extends State<AddActivityDialog> {
 
             const SizedBox(height: 20),
 
-            RadioListTile(
-              title: const Text("Positive"),
-              value: true,
+            RadioGroup<bool>(
               groupValue: isPositive,
               onChanged: (value) {
                 setState(() {
                   isPositive = value!;
                 });
               },
-            ),
-
-            RadioListTile(
-              title: const Text("Negative"),
-              value: false,
-              groupValue: isPositive,
-              onChanged: (value) {
-                setState(() {
-                  isPositive = value!;
-                });
-              },
+              child: Column(
+                children: const [
+                  RadioListTile<bool>(value: true, title: Text("Positive")),
+                  RadioListTile<bool>(value: false, title: Text("Negative")),
+                ],
+              ),
             ),
           ],
         ),

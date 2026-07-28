@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:offline_agenda/database/app_database.dart';
 import 'pages/main_page.dart';
 
+
 void main() {
-  runApp(const DailyTrackerApp());
+  final database = AppDatabase();
+  runApp(DailyTrackerApp(database: database));
 }
 
+
 class DailyTrackerApp extends StatelessWidget {
-  const DailyTrackerApp({super.key});
+  final AppDatabase database;
+  
+  const DailyTrackerApp({
+    super.key,
+    required this.database,
+    });
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Daily Tracker',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      ),
-      home: const MainPage(),
+      home: MainPage(database: database),
     );
   }
 }

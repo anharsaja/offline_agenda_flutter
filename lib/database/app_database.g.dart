@@ -36,8 +36,21 @@ class $ActivitiesTableTable extends ActivitiesTable
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _doneMeta = const VerificationMeta('done');
   @override
-  List<GeneratedColumn> get $columns => [id, name, point];
+  late final GeneratedColumn<bool> done = GeneratedColumn<bool>(
+    'done',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("done" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, point, done];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -71,6 +84,12 @@ class $ActivitiesTableTable extends ActivitiesTable
     } else if (isInserting) {
       context.missing(_pointMeta);
     }
+    if (data.containsKey('done')) {
+      context.handle(
+        _doneMeta,
+        done.isAcceptableOrUnknown(data['done']!, _doneMeta),
+      );
+    }
     return context;
   }
 
@@ -92,6 +111,10 @@ class $ActivitiesTableTable extends ActivitiesTable
         DriftSqlType.int,
         data['${effectivePrefix}point'],
       )!,
+      done: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}done'],
+      )!,
     );
   }
 
@@ -106,10 +129,12 @@ class ActivitiesTableData extends DataClass
   final String id;
   final String name;
   final int point;
+  final bool done;
   const ActivitiesTableData({
     required this.id,
     required this.name,
     required this.point,
+    required this.done,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -117,6 +142,7 @@ class ActivitiesTableData extends DataClass
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
     map['point'] = Variable<int>(point);
+    map['done'] = Variable<bool>(done);
     return map;
   }
 
@@ -125,6 +151,7 @@ class ActivitiesTableData extends DataClass
       id: Value(id),
       name: Value(name),
       point: Value(point),
+      done: Value(done),
     );
   }
 
@@ -137,6 +164,7 @@ class ActivitiesTableData extends DataClass
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       point: serializer.fromJson<int>(json['point']),
+      done: serializer.fromJson<bool>(json['done']),
     );
   }
   @override
@@ -146,20 +174,27 @@ class ActivitiesTableData extends DataClass
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
       'point': serializer.toJson<int>(point),
+      'done': serializer.toJson<bool>(done),
     };
   }
 
-  ActivitiesTableData copyWith({String? id, String? name, int? point}) =>
-      ActivitiesTableData(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        point: point ?? this.point,
-      );
+  ActivitiesTableData copyWith({
+    String? id,
+    String? name,
+    int? point,
+    bool? done,
+  }) => ActivitiesTableData(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    point: point ?? this.point,
+    done: done ?? this.done,
+  );
   ActivitiesTableData copyWithCompanion(ActivitiesTableCompanion data) {
     return ActivitiesTableData(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       point: data.point.present ? data.point.value : this.point,
+      done: data.done.present ? data.done.value : this.done,
     );
   }
 
@@ -168,37 +203,42 @@ class ActivitiesTableData extends DataClass
     return (StringBuffer('ActivitiesTableData(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('point: $point')
+          ..write('point: $point, ')
+          ..write('done: $done')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, point);
+  int get hashCode => Object.hash(id, name, point, done);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ActivitiesTableData &&
           other.id == this.id &&
           other.name == this.name &&
-          other.point == this.point);
+          other.point == this.point &&
+          other.done == this.done);
 }
 
 class ActivitiesTableCompanion extends UpdateCompanion<ActivitiesTableData> {
   final Value<String> id;
   final Value<String> name;
   final Value<int> point;
+  final Value<bool> done;
   final Value<int> rowid;
   const ActivitiesTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.point = const Value.absent(),
+    this.done = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ActivitiesTableCompanion.insert({
     required String id,
     required String name,
     required int point,
+    this.done = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
@@ -207,12 +247,14 @@ class ActivitiesTableCompanion extends UpdateCompanion<ActivitiesTableData> {
     Expression<String>? id,
     Expression<String>? name,
     Expression<int>? point,
+    Expression<bool>? done,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (point != null) 'point': point,
+      if (done != null) 'done': done,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -221,12 +263,14 @@ class ActivitiesTableCompanion extends UpdateCompanion<ActivitiesTableData> {
     Value<String>? id,
     Value<String>? name,
     Value<int>? point,
+    Value<bool>? done,
     Value<int>? rowid,
   }) {
     return ActivitiesTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       point: point ?? this.point,
+      done: done ?? this.done,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -243,6 +287,9 @@ class ActivitiesTableCompanion extends UpdateCompanion<ActivitiesTableData> {
     if (point.present) {
       map['point'] = Variable<int>(point.value);
     }
+    if (done.present) {
+      map['done'] = Variable<bool>(done.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -255,6 +302,7 @@ class ActivitiesTableCompanion extends UpdateCompanion<ActivitiesTableData> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('point: $point, ')
+          ..write('done: $done, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -279,6 +327,7 @@ typedef $$ActivitiesTableTableCreateCompanionBuilder =
       required String id,
       required String name,
       required int point,
+      Value<bool> done,
       Value<int> rowid,
     });
 typedef $$ActivitiesTableTableUpdateCompanionBuilder =
@@ -286,6 +335,7 @@ typedef $$ActivitiesTableTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> name,
       Value<int> point,
+      Value<bool> done,
       Value<int> rowid,
     });
 
@@ -310,6 +360,11 @@ class $$ActivitiesTableTableFilterComposer
 
   ColumnFilters<int> get point => $composableBuilder(
     column: $table.point,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get done => $composableBuilder(
+    column: $table.done,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -337,6 +392,11 @@ class $$ActivitiesTableTableOrderingComposer
     column: $table.point,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get done => $composableBuilder(
+    column: $table.done,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ActivitiesTableTableAnnotationComposer
@@ -356,6 +416,9 @@ class $$ActivitiesTableTableAnnotationComposer
 
   GeneratedColumn<int> get point =>
       $composableBuilder(column: $table.point, builder: (column) => column);
+
+  GeneratedColumn<bool> get done =>
+      $composableBuilder(column: $table.done, builder: (column) => column);
 }
 
 class $$ActivitiesTableTableTableManager
@@ -398,11 +461,13 @@ class $$ActivitiesTableTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<int> point = const Value.absent(),
+                Value<bool> done = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ActivitiesTableCompanion(
                 id: id,
                 name: name,
                 point: point,
+                done: done,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -410,11 +475,13 @@ class $$ActivitiesTableTableTableManager
                 required String id,
                 required String name,
                 required int point,
+                Value<bool> done = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ActivitiesTableCompanion.insert(
                 id: id,
                 name: name,
                 point: point,
+                done: done,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

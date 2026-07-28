@@ -2,11 +2,13 @@ import 'package:drift/drift.dart';
 
 class ActivitiesTable extends Table {
   TextColumn get id => text()();
+
   TextColumn get name => text()();
-  // TextColumn get category => text()();
+
   IntColumn get point => integer()();
-  // BoolColumn get isDaily => boolean()();
-  // DateTimeColumn get createdAt => dateTime()();
+
+  BoolColumn get done => boolean().withDefault(const Constant(false))();
+
   @override
   Set<Column> get primaryKey => {id};
 }
